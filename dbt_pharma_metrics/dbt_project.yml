@@ -1,0 +1,37 @@
+name: 'dbt_pharma_metrics'
+version: '1.0.0'
+config-version: 2
+
+profile: 'dbt_pharma_metrics'
+
+model-paths: ["models"]
+seed-paths: ["seeds"]
+test-paths: ["tests"]
+macro-paths: ["macros"]
+
+target-path: "target"
+clean-targets:
+  - "target"
+  - "dbt_packages"
+
+models:
+  dbt_pharma_metrics:
+    staging:
+      +materialized: view
+      +schema: staging
+    dimensions:
+      +materialized: table
+      +schema: dimensions
+    facts:
+      +materialized: table
+      +schema: facts
+    reports:
+      +materialized: table
+      +schema: reports
+    metrics:
+      +materialized: table
+      +schema: metrics
+
+seeds:
+  dbt_pharma_metrics:
+    +schema: seeds

@@ -1,0 +1,41 @@
+version: 2
+
+models:
+  - name: fct_brand_revenue
+    description: >
+      Canonical fact table: one row per brand/country/month.
+      Single source of truth for all revenue and unit metrics.
+      All deductions applied per governed rules (accrual chargebacks,
+      returns on booking month, paid units only).
+    columns:
+      - name: sale_id
+        tests:
+          - unique
+          - not_null
+      - name: brand_id
+        tests:
+          - not_null
+          - accepted_values:
+              arguments:
+                values: ['BR001', 'BR002', 'BR003', 'BR004', 'BR005']
+      - name: country_id
+        tests:
+          - not_null
+          - accepted_values:
+              arguments:
+                values: ['US', 'UK', 'DE', 'JP']
+      - name: sale_month
+        tests:
+          - not_null
+      - name: gross_revenue
+        tests:
+          - not_null
+      - name: net_revenue
+        tests:
+          - not_null
+      - name: units_sold
+        tests:
+          - not_null
+      - name: market_share_pct_sub_class
+        tests:
+          - not_null

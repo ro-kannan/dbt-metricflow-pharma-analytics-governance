@@ -1,0 +1,24 @@
+# Virtual environment
+.venv/
+
+# DuckDB database file (regenerated locally via scripts/01_generate_pharma_data.py)
+pharma_metrics.duckdb
+
+# dbt build artifacts
+dbt_pharma_metrics/target/
+dbt_pharma_metrics/dbt_packages/
+dbt_pharma_metrics/logs/
+
+# dbt profile (contains connection config — use profiles.yml.example as reference)
+profiles.yml
+
+# Python
+__pycache__/
+*.pyc
+*.pyo
+
+# macOS
+.DS_Store
+
+# Misc
+.user.yml

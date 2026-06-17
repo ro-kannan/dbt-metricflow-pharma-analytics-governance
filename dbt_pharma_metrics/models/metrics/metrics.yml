@@ -1,0 +1,130 @@
+version: 2
+
+semantic_models:
+  - name: brand_revenue
+    description: >
+      Semantic model over fct_brand_revenue. Defines all metric measures once —
+      in production with dbt Cloud, Power BI and Tableau query these definitions
+      via the Semantic Layer API instead of writing their own DAX measures.
+    model: ref('fct_brand_revenue')
+    defaults:
+      agg_time_dimension: sale_month
+
+    entities:
+      - name: sale
+        type: primary
+        expr: sale_id
+
+    dimensions:
+      - name: sale_month
+        type: time
+        type_params:
+          time_granularity: month
+      - name: brand_id
+        type: categorical
+      - name: brand_name
+        type: categorical
+      - name: country_id
+        type: categorical
+      - name: therapeutic_class
+        type: categorical
+      - name: sub_class
+        type: categorical
+
+    measures:
+      - name: gross_revenue_amount
+        description: "Gross revenue before any deductions"
+        agg: sum
+        expr: gross_revenue
+
+      - name: net_revenue_amount
+        description: >
+          Net revenue after all deductions: govt rebates, commercial rebates,
+          chargebacks (accrual basis), and returns (allocated to booking month).
+          This is the governed definition — every team must use this measure,
+          not recalculate in their BI tool.
+        agg: sum
+        expr: net_revenue
+
+      - name: total_deductions_amount
+        description: "Sum of all revenue deductions"
+        agg: sum
+        expr: total_deductions
+
+      - name: units_sold_count
+        description: "Paid units shipped to distributor (free samples excluded)"
+        agg: sum
+        expr: units_sold
+
+      - name: free_sample_units_count
+        description: "Free sample units — excluded from revenue and market share"
+        agg: sum
+        expr: free_sample_units
+
+      - name: return_units_count
+        description: "Units returned, allocated to original booking month"
+        agg: sum
+        expr: return_units
+
+      - name: sub_class_market_units
+        description: "Total market units in the same sub-class (governed denominator for market share)"
+        agg: sum
+        expr: sub_class_total_units
+
+metrics:
+  - name: revenue_gross
+    label: "Gross Revenue"
+    description: "Total revenue before rebates, chargebacks, or returns"
+    type: simple
+    type_params:
+      measure: gross_revenue_amount
+
+  - name: net_revenue
+    label: "Net Revenue"
+    description: >
+      Revenue net of all rebates (govt + commercial), chargebacks (accrual basis),
+      and returns (allocated to booking month). Single governed definition used
+      by Finance, Brand teams, and Market Access.
+    type: simple
+    type_params:
+      measure: net_revenue_amount
+
+  - name: total_deductions
+    label: "Total Deductions"
+    description: "Sum of all revenue deductions from gross to net"
+    type: simple
+    type_params:
+      measure: total_deductions_amount
+
+  - name: units_sold
+    label: "Units Sold (Ship-In)"
+    description: "Paid units shipped to distributor — excludes free samples"
+    type: simple
+    type_params:
+      measure: units_sold_count
+
+  - name: market_denominator_units
+    label: "Market Denominator Units (Sub-Class)"
+    description: "Total sub-class market units — the governed denominator for market share"
+    type: simple
+    type_params:
+      measure: sub_class_market_units
+
+  - name: return_units
+    label: "Return Units"
+    description: "Units returned, allocated to original booking month"
+    type: simple
+    type_params:
+      measure: return_units_count
+
+  - name: free_sample_units
+    label: "Free Sample Units"
+    description: "Free sample units distributed — excluded from revenue and market share"
+    type: simple
+    type_params:
+      measure: free_sample_units_count
+
+  # market_share_pct and net_revenue_per_unit are ratio metrics.
+  # In production with dbt Cloud Semantic Layer, these are defined as ratio type_params.
+  # In dbt Core (this POC), they are pre-calculated columns in fct_brand_revenue
+  # (market_share_pct_sub_class, net_revenue_margin_pct) — same result, no API needed.

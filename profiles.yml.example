@@ -1,0 +1,12 @@
+# Copy this file to profiles.yml (gitignored) before running dbt.
+# No credentials needed — this project uses a local DuckDB file.
+
+dbt_pharma_metrics:
+  target: dev
+  outputs:
+    dev:
+      type: duckdb
+      # Path to the DuckDB file. Default: one level up from dbt_pharma_metrics/ (the repo root).
+      # Override via environment variable: export PHARMA_DB_PATH=/path/to/pharma_metrics.duckdb
+      path: "{{ env_var('PHARMA_DB_PATH', '../pharma_metrics.duckdb') }}"
+      threads: 4
