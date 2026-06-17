@@ -1,6 +1,5 @@
 """
-Pharma Metrics Governance Dashboard
-POC 3 — Metrics Layer
+dbt Metrics Layer — Pharma KPI Governance
 
 Shows how 5 brand teams produce 5 different revenue numbers from the same raw data,
 and how a governed dbt metrics layer eliminates the divergence.
@@ -15,7 +14,7 @@ import subprocess, sys, os
 DB_PATH = Path(__file__).parent / "pharma_metrics.duckdb"
 
 st.set_page_config(
-    page_title="Pharma Metrics Governance",
+    page_title="dbt Metrics Layer — Pharma KPI Governance",
     page_icon="💊",
     layout="wide",
 )
@@ -44,7 +43,7 @@ def get_conn():
 con = get_conn()
 
 # ── Sidebar ──────────────────────────────────────────────────────────────────
-st.sidebar.title("Pharma Metrics Governance")
+st.sidebar.title("Pharma KPI Governance")
 st.sidebar.markdown("""
 **5 brand teams. 5 different revenue numbers. Same raw data.**
 
@@ -71,8 +70,8 @@ selected_brands = st.sidebar.multiselect("Filter brands", brands_all, default=br
 brand_filter = "', '".join(selected_brands) if selected_brands else "''"
 
 # ── Header ────────────────────────────────────────────────────────────────────
-st.title("Pharma Commercial Metrics Governance")
-st.caption("POC 3 · dbt Metrics Layer · 5 brands · 4 countries · 12 months")
+st.title("dbt Metrics Layer — Pharma KPI Governance")
+st.caption("5 brands · 4 countries · 12 months · dbt + MetricFlow + DuckDB + Streamlit")
 
 # ── Context intro ─────────────────────────────────────────────────────────────
 with st.expander("What is this? — Context and overview", expanded=True):

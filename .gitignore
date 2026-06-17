@@ -9,9 +9,6 @@ dbt_pharma_metrics/target/
 dbt_pharma_metrics/dbt_packages/
 dbt_pharma_metrics/logs/
 
-# dbt profile (contains connection config — use profiles.yml.example as reference)
-profiles.yml
-
 # Python
 __pycache__/
 *.pyc

@@ -1,5 +1,5 @@
 """
-Generate simulated pharma commercial analytics data for POC 3.
+Generate simulated pharma commercial analytics data.
 
 Produces a DuckDB file with 9 raw tables covering all 5 metric divergence
 scenarios: rebate netting, chargeback timing, sell-through vs ship-in,

@@ -1,0 +1,7 @@
+dbt_pharma_metrics:
+  target: dev
+  outputs:
+    dev:
+      type: duckdb
+      path: "{{ env_var('PHARMA_DB_PATH', '../pharma_metrics.duckdb') }}"
+      threads: 4

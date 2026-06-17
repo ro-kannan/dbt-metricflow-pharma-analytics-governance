@@ -1,4 +1,4 @@
-# POC 3 — Pharma Commercial Metrics Governance
+# dbt Metrics Layer — Pharma KPI Governance
 
 A recurring pattern in pharma commercial analytics engagements: five brand teams each calculate
 "net revenue" differently from the same source data — government rebates included by some,
@@ -223,8 +223,8 @@ Once it passes, any team presenting a different number has to explain the deviat
 
 ```bash
 # 1. Clone and set up
-git clone https://github.com/ro-kannan/pharma-metrics-governance
-cd pharma-metrics-governance
+git clone https://github.com/ro-kannan/dbt-metricflow-pharma-analytics-governance
+cd dbt-metricflow-pharma-analytics-governance
 python3.13 -m venv .venv && source .venv/bin/activate
 pip install -r requirements.txt
 
