@@ -242,7 +242,7 @@ cd ..
 streamlit run app.py
 ```
 
-**Live demo:** [Streamlit Community Cloud link]
+**Live demo:** https://dbt-metricflow-pharma-analytics-governance.streamlit.app
 
 ---
 
