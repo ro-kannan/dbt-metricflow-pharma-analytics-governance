@@ -24,15 +24,16 @@ if not DB_PATH.exists():
     with st.spinner("First run: generating data and running dbt models (takes ~30 seconds)…"):
         venv_python = Path(__file__).parent / ".venv" / "bin" / "python"
         python = str(venv_python) if venv_python.exists() else sys.executable
+        dbt_bin = str(Path(python).parent / "dbt")
 
         subprocess.run([python, "scripts/01_generate_pharma_data.py"], check=True,
                        cwd=str(Path(__file__).parent))
         subprocess.run(
-            [python, "-m", "dbt", "seed", "--profiles-dir", ".."],
+            [dbt_bin, "seed", "--profiles-dir", ".."],
             check=True, cwd=str(Path(__file__).parent / "dbt_pharma_metrics")
         )
         subprocess.run(
-            [python, "-m", "dbt", "run", "--profiles-dir", ".."],
+            [dbt_bin, "run", "--profiles-dir", ".."],
             check=True, cwd=str(Path(__file__).parent / "dbt_pharma_metrics")
         )
 
